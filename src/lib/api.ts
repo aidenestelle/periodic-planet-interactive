@@ -1,14 +1,15 @@
 
-import { Element, fetchElementData } from "@/data/elementsData";
+import { fetchElementData } from "@/data/elementsData";
+import { Element } from "@/types/ElementTypes";
 
 // API class for fetching element data
 export class ChemistryAPI {
   // Fetch data for a specific element by atomic number
-  static async getElement(atomicNumber: number): Promise<Element | undefined> {
+  static async getElement(number: number): Promise<Element | undefined> {
     try {
       // In a real app, this would call an external API
       // For now, we'll use our mock data function
-      return await fetchElementData(atomicNumber);
+      return await fetchElementData(number);
     } catch (error) {
       console.error("Error fetching element data:", error);
       return undefined;
@@ -28,7 +29,7 @@ export class ChemistryAPI {
       return elements.filter(element => 
         element.name.toLowerCase().includes(searchQuery) ||
         element.symbol.toLowerCase() === searchQuery ||
-        element.atomicNumber.toString() === searchQuery
+        element.number.toString() === searchQuery
       );
     } catch (error) {
       console.error("Error searching elements:", error);
@@ -51,18 +52,18 @@ export class ChemistryAPI {
   }
   
   // Get similar elements (same group or period)
-  static async getSimilarElements(atomicNumber: number): Promise<Element[]> {
+  static async getSimilarElements(number: number): Promise<Element[]> {
     try {
-      const element = await this.getElement(atomicNumber);
+      const element = await this.getElement(number);
       if (!element) return [];
       
       const response = await import('@/data/elementsData');
       const { elements } = response;
       
-      // Get elements in the same column (group) or row (period)
+      // Get elements in the same group (column) or period (row)
       return elements.filter(el => 
-        (el.gridColumn === element.gridColumn || el.gridRow === element.gridRow) && 
-        el.atomicNumber !== element.atomicNumber
+        (el.group === element.group || el.period === element.period) && 
+        el.number !== element.number
       );
     } catch (error) {
       console.error("Error fetching similar elements:", error);
@@ -79,7 +80,7 @@ export const compareElementProperties = <T extends keyof Element>(
   const result: Record<number, Element[T] | undefined> = {};
   
   elements.forEach(element => {
-    result[element.atomicNumber] = element[property];
+    result[element.number] = element[property];
   });
   
   return result;

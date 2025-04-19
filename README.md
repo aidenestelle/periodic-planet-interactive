@@ -1,73 +1,109 @@
-# Welcome to your Lovable project
+# Periodic Planet Interactive
 
-## Project info
+A modern, interactive periodic table web application built with React, TypeScript, Vite, and shadcn-ui. This project provides a beautiful, accessible, and maintainable codebase for exploring the elements, their properties, and discovering chemistry in an engaging way.
 
-**URL**: https://lovable.dev/projects/82bf35ef-147e-4d2e-a52f-ba6bd4cc2319
+---
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+- **Interactive Periodic Table**: Browse and filter chemical elements, view detailed information, and search by name or property.
+- **Responsive Design**: Fully responsive layout for desktop and mobile devices.
+- **Accessible UI**: Uses semantic HTML, ARIA labels, and shadcn-ui components for accessibility.
+- **Modern React Architecture**: Context API for state management, custom hooks, and modular component structure.
+- **Fast Refresh & Lint Clean**: All components and contexts separated for optimal hot reloading and code quality.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/82bf35ef-147e-4d2e-a52f-ba6bd4cc2319) and start prompting.
+## 📂 Folder Structure
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+periodic-planet-interactive/
+├── src/
+│   ├── components/
+│   │   ├── ui/                # Reusable UI components (Button, Badge, Sidebar, etc.)
+│   │   ├── ElementCard.tsx    # Element detail card
+│   │   ├── SearchFilter.tsx   # Search and filter bar
+│   │   └── SiteFooter.tsx     # Footer component
+│   ├── context/
+│   │   ├── ElementsContext.tsx        # Provider for elements state
+│   │   ├── ElementsContextValue.ts    # Context definition (no components)
+│   │   └── useElements.ts             # Custom hook for consuming context
+│   ├── pages/
+│   │   └── Index.tsx          # Main landing page
+│   └── types/
+│       └── ElementTypes.ts    # TypeScript types for elements
+├── public/
+├── package.json
+├── tailwind.config.js
+└── README.md
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🛠️ Setup & Development
 
-**Use GitHub Codespaces**
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Install Dependencies
+```sh
+npm install
+# or
+yarn install
+```
 
-## What technologies are used for this project?
+### Start the Development Server
+```sh
+npm run dev
+# or
+yarn dev
+```
 
-This project is built with:
+### Lint & Format
+```sh
+npm run lint
+npm run lint --fix
+npm run format
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Build for Production
+```sh
+npm run build
+```
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/82bf35ef-147e-4d2e-a52f-ba6bd4cc2319) and click on Share -> Publish.
+## 💡 Code Style & Architecture
+- **Component Files**: Only export React components. All non-component logic (variants, hooks, styles) is in separate files for best Fast Refresh compatibility.
+- **Context Separation**: Contexts are defined in files like `ElementsContextValue.ts`, and providers/hooks are in their own files for clarity and maintainability.
+- **TypeScript**: Strongly typed throughout for safety and autocompletion.
+- **shadcn-ui**: Used for consistent, accessible UI primitives.
+- **Tailwind CSS**: Utility-first styling for rapid UI development.
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🤝 Contributing
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and commit: `git commit -m "Add your feature"`
+4. Push to your fork: `git push origin feature/your-feature-name`
+5. Open a Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+All contributions are welcome! Please lint and test your code before submitting.
+
+---
+
+## 🙏 Credits
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.

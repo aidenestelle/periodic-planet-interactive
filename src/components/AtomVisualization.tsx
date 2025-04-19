@@ -3,24 +3,31 @@ import { useRef, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Sphere, Text } from "@react-three/drei";
 import * as THREE from "three";
-import { Element } from "@/data/elementsData";
 import { getElectronConfiguration, calculateElectronPositions } from "@/lib/atomicUtils";
+import type { Element as ChemicalElement } from "@/types/ElementTypes";
 import { elementCategories } from "@/data/elementCategories";
 
 // Electron component
 function Electron({ position }: { position: [number, number, number] }) {
   const mesh = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
-  
-  // Add some randomized movement
+
+  // Runtime validation (after hooks)
+  const isValid = Array.isArray(position) && position.length === 3 && position.every((v) => typeof v === 'number' && !isNaN(v));
   useFrame(() => {
+    if (!isValid) {
+      console.error('Invalid position prop for Electron:', position);
+      return;
+    }
     if (mesh.current) {
       mesh.current.position.x += (Math.random() - 0.5) * 0.01;
       mesh.current.position.y += (Math.random() - 0.5) * 0.01;
       mesh.current.position.z += (Math.random() - 0.5) * 0.01;
     }
   });
-  
+
+  if (!isValid) return null;
+
   return (
     <Sphere
       ref={mesh}
@@ -49,20 +56,27 @@ function Shell({ radius, color = "#cccccc" }: { radius: number, color?: string }
 }
 
 // Nucleus component
-function Nucleus({ element }: { element: Element }) {
+function Nucleus({ element }: { element: ChemicalElement }) {
   const mesh = useRef<THREE.Mesh>(null!);
   const category = elementCategories[element.category];
-  
-  // Rotate the nucleus
+
+  // Runtime validation (after hooks)
+  const isValid = element && typeof element === 'object' && typeof element.symbol === 'string' && typeof element.number === 'number';
   useFrame(() => {
+    if (!isValid) {
+      console.error('Invalid element prop for Nucleus:', element);
+      return;
+    }
     if (mesh.current) {
       mesh.current.rotation.y += 0.01;
       mesh.current.rotation.x += 0.005;
     }
   });
+
+  if (!isValid) return null;
   
   const nucleusColor = category?.backgroundColor || "#cccccc";
-  const nucleusSize = Math.min(0.5, 0.2 + (element.atomicNumber * 0.01));
+  const nucleusSize = Math.min(0.5, 0.2 + (element.number * 0.01));
   
   return (
     <group>
@@ -86,10 +100,15 @@ function Nucleus({ element }: { element: Element }) {
 }
 
 // Main Atom component
-function Atom({ element }: { element: Element }) {
+function Atom({ element }: { element: ChemicalElement }) {
   // Calculate electron configuration per shell
+  // Use correct property and provide fallback if undefined
   const electronShells = useMemo(
-    () => getElectronConfiguration(element.electronConfiguration),
+    () => {
+      // Fallback: if electron_configuration is missing, return empty array
+      if (!element.electron_configuration) return [];
+      return getElectronConfiguration(element.electron_configuration);
+    },
     [element]
   );
   
@@ -128,7 +147,7 @@ function Atom({ element }: { element: Element }) {
 
 // Main component with Canvas
 interface AtomVisualizationProps {
-  element: Element;
+  element: ChemicalElement;
 }
 
 export default function AtomVisualization({ element }: AtomVisualizationProps) {

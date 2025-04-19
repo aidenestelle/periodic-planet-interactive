@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import { elementCategories } from "@/data/elementCategories";
@@ -19,25 +19,21 @@ export default function SearchFilter({
 }: SearchFilterProps) {
   const [searchQuery, setSearchQuery] = useState("");
   
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(searchQuery);
-  };
+
   
   return (
     <div className="mb-6 space-y-4">
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <form className="flex gap-2" onSubmit={e => e.preventDefault()}>
         <Input
           type="text"
           placeholder="Search by name, symbol or number..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            onSearch(e.target.value);
+          }}
           className="w-full"
         />
-        <Button type="submit" variant="default">
-          <Search className="h-4 w-4 mr-2" />
-          Search
-        </Button>
       </form>
       
       <div className="space-y-2">
