@@ -1,0 +1,20 @@
+<!-- 404.html for GitHub Pages SPA routing fallback -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=/periodic-planet-interactive/" />
+    <script>
+      // If JS is enabled, redirect preserving the path for client-side routing
+      var path = location.pathname.replace('/periodic-planet-interactive', '');
+      var search = location.search || '';
+      var hash = location.hash || '';
+      location.replace('/periodic-planet-interactive/' + '#' + path + search + hash);
+    </script>
+    <title>404 Not Found</title>
+  </head>
+  <body>
+    <h1>404: Not Found</h1>
+    <p>Redirecting to the app...</p>
+  </body>
+</html>
