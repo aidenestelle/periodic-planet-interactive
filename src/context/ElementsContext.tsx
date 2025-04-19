@@ -17,7 +17,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/elements.json")
+    fetch(`${import.meta.env.BASE_URL}elements.json`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load elements.json");
         return res.json();

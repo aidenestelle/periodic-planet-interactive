@@ -23,7 +23,7 @@ export default function BohrModelViewer({ glbUrl }: { glbUrl: string }) {
   );
 }
 
-// Required for GLTF loading
-if (useGLTF.preload) {
-  (useGLTF.preload as (path: string) => void)("/dummy-path-to-avoid-build-error");
-}
+// Removed dummy preload to avoid 404 errors on GitHub Pages
+// if (useGLTF.preload) {
+//   (useGLTF.preload as (path: string) => void)("/dummy-path-to-avoid-build-error");
+// }
