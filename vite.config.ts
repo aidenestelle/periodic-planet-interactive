@@ -30,17 +30,42 @@ export default defineConfig(({ mode }) => ({
       "@radix-ui/react-tabs", 
       "@radix-ui/react-separator",
       "@radix-ui/react-collapsible",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-toast",
       "@react-three/fiber",
       "@react-three/drei",
       "three"
     ],
     esbuildOptions: {
       target: "esnext",
+      mainFields: ['module', 'main'],
+      define: {
+        global: 'globalThis',
+      }
     },
   },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'radix': [
+            '@radix-ui/react-slot',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-toast'
+          ],
+          'three': [
+            '@react-three/fiber',
+            '@react-three/drei',
+            'three'
+          ]
+        }
+      }
+    }
   },
 }));
